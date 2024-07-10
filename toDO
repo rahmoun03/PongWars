@@ -1,0 +1,16 @@
+game rols :
+1 - dark mode and give the player a light, this is the code :`
+    const light1 = new THREE.SpotLight()
+    light1.position.set(2.5, 5, 5)
+    light1.angle = Math.PI / 4
+    light1.penumbra = 0.5
+    light1.castShadow = true
+    light1.shadow.mapSize.width = 1024
+    light1.shadow.mapSize.height = 1024
+    light1.shadow.camera.near = 0.5
+    light1.shadow.camera.far = 20
+    scene.add(light1)`
+
+2 - wall collision
+
+3 - 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Three.js Cube Follow Cursor</title>
+    <style>
+      body { margin: 0; }
+      canvas { display: block; }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script type="module">
+        const scene = new THREE.Scene();
+        const axeshelper = new THREE.AxesHelper(10);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Add some objects to the scene (example)
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube, camera, axeshelper);
+
+        camera.position.z = 130;
+
+        let overallBoundingBox = new THREE.Box3();
+
+        scene.traverse((object) => {
+            if (object.isMesh) {
+                object.geometry.computeBoundingBox();
+                const boundingBox = object.geometry.boundingBox.clone();
+                boundingBox.applyMatrix4(object.matrixWorld);
+                overallBoundingBox.expandByObject(object);
+            }
+        const min = overallBoundingBox.min;
+        const max = overallBoundingBox.max;
+
+        console.log("Coordinate Range:");
+        console.log("Min:", min);
+        console.log("Max:", max);
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        animate();
+
+});
+
+
+    </script>
+  </body>
+</html>

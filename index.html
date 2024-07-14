@@ -7,22 +7,34 @@
     <title>3D something</title>
     <style>
         body {margin: 0;}
-        canvas {display: block;}
+        canvas {
+            display: flex;
+
+        }
         h1 {
             border: 1px whitesmoke;
             padding: 10px;
             background-color: slategrey;
             top: 20px;
-            left:40%;
+            left:auto;
+            right: 50%;
             position: fixed;
             color: rgb(14, 10, 11);
             font-family: Segoe UI, Helvetica, Ubuntu, sans-serif;
         }
+        /* .canvas_container
+        {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        } */
     </style>
 </head>
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script type="module" src="script.js"></script>
-    <h1>The Solar System</h1>
+    <div class="canvas_container">
+        <h1>Ping Pong Game</h1>
+        <script type="module" src="script.js"></script>
+    </div>
 </body>
 </html>

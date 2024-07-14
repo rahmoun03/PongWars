@@ -2,49 +2,91 @@
 
 import { ThreeMFLoader } from 'three/examples/jsm/Addons.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { cameraNear, color } from 'three/examples/jsm/nodes/Nodes.js';
+import { cameraNear, color, normalMap, roughness } from 'three/examples/jsm/nodes/Nodes.js';
 import * as dat from 'lil-gui';
+import { DirectionalLight } from 'three';
+import { DirectionalLightHelper } from 'three';
 
 
 const gui = new dat.GUI();
 const scene = new THREE.Scene();
 const tableGroup = new THREE.Group();
-const axesHelper = new THREE.AxesHelper(window.innerWidth / 2);
+let Width, Height;
+Width = window.innerWidth * 0.8;
+Height = window.innerHeight * 0.8;
+let colorLight = 0xfcffb5;
 
-const pointLight = new THREE.PointLight(0xffffff, 2.5, 1000); // Color, intensity, and distance
-pointLight.position.set(200, 200, 200); // Position at the sun
+const axesHelper = new THREE.AxesHelper(Width / 2);
+
+/* Ambient light*/
+const AmbientLight = new THREE.AmbientLight(0xfcffb5, 0.3); // Color, intensity, and distance
+scene.add(AmbientLight);
+
+
+
+/* point light*/
+const pointLight = new THREE.PointLight(0xffee50, 1.5, 1000);// Color, intensity, and distance
+const pointLight1 = new THREE.PointLight(0xffffff, 2.5, 1000); // Color, intensity, and distance
+const pointLight2 = new THREE.PointLight(0xffffff, 2.5, 1000); // Color, intensity, and distance 
+pointLight.position.set(-100, 300, -200); // 
+pointLight1.position.set(100, 300, -100); // 
+pointLight2.position.set(30, 300, 100); // 
 pointLight.castShadow = true;
 scene.add(pointLight);
+
+
+/* directional light*/
+const directionalLight = new THREE.DirectionalLight(0xffee50);
+directionalLight.position.x = -0.5;
+directionalLight.position.y = 1;
+directionalLight.position.z = -0.5;
+scene.add(directionalLight);
+const drh = new THREE.DirectionalLightHelper(directionalLight, 20);
+scene.add(drh);
+
+
+
 
 let mouse = new THREE.Vector2();
 let raycaster = new THREE.Raycaster();
 
-let texture = ([
-	new THREE.MeshBasicMaterial({map : new THREE.TextureLoader().load('./CubeMap/px.png'), side : THREE.BackSide}),
-	new THREE.MeshBasicMaterial({map : new THREE.TextureLoader().load('./CubeMap/nx.png'), side : THREE.BackSide}),
-	new THREE.MeshBasicMaterial({map : new THREE.TextureLoader().load('./CubeMap/py.png'), side : THREE.BackSide}),
-	new THREE.MeshBasicMaterial({map : new THREE.TextureLoader().load('./CubeMap/ny.png'), side : THREE.BackSide}),
-	new THREE.MeshBasicMaterial({map : new THREE.TextureLoader().load('./CubeMap/pz.png'), side : THREE.BackSide}),
-	new THREE.MeshBasicMaterial({map : new THREE.TextureLoader().load('./CubeMap/nz.png'), side : THREE.BackSide})
-	]);
-	// const ground = new THREE.Mesh(
-	// 	new THREE.BoxGeometry(1000,1000,1000),
-	// 	texture
-	// );
-const groundTexture = new THREE.TextureLoader().load("ground1.jpg");
-groundTexture.repeat.x = 16;
-groundTexture.repeat.y = 16;
-groundTexture.wrapS = THREE.repearWrapping;
-groundTexture.wrapT = THREE.repearWrapping;
-const ground = new THREE.Mesh(
-	new THREE.PlaneGeometry(1000,1000,1000),
-	new THREE.MeshBasicMaterial({map : groundTexture})
-);
-ground.rotation.x = -Math.PI / 2;
-ground.position.y = -10;
-scene.add(ground);
+// let texture = ([
+// 	new THREE.MeshBasicMaterial({map : new THREE.TextureLoader().load('./CubeMap/px.png'), side : THREE.BackSide}),
+// 	new THREE.MeshBasicMaterial({map : new THREE.TextureLoader().load('./CubeMap/nx.png'), side : THREE.BackSide}),
+// 	new THREE.MeshBasicMaterial({map : new THREE.TextureLoader().load('./CubeMap/py.png'), side : THREE.BackSide}),
+// 	new THREE.MeshBasicMaterial({map : new THREE.TextureLoader().load('./CubeMap/ny.png'), side : THREE.BackSide}),
+// 	new THREE.MeshBasicMaterial({map : new THREE.TextureLoader().load('./CubeMap/pz.png'), side : THREE.BackSide}),
+// 	new THREE.MeshBasicMaterial({map : new THREE.TextureLoader().load('./CubeMap/nz.png'), side : THREE.BackSide})
+// 	]);
+// 	const ground = new THREE.Mesh(
+// 		new THREE.BoxGeometry(100000,100000,100000),
+// 		texture
+// 	);
+	
+	
+	
+	const groundTexture = new THREE.TextureLoader().load("ground1.jpg");
+	groundTexture.repeat.x = 16;
+	groundTexture.repeat.y = 16;
+	groundTexture.wrapS = THREE.repearWrapping;
+	groundTexture.wrapT = THREE.repearWrapping;
+	const ground = new THREE.Mesh(
+		new THREE.PlaneGeometry(1000,1000,1000),
+		new THREE.MeshStandardMaterial({map : groundTexture})
+	);
+	ground.rotation.x = -Math.PI / 2;
+	ground.position.y = -10;
+	ground.receiveShadow = true;
+	// scene.add(ground);
 
 
+
+	let score = new THREE.Mesh(
+		new THREE.TextGeometry("0 - 0"),
+		new THREE.MeshNormalMaterial()
+	);
+
+	scene.add(score);
 
 
 const ball = new THREE.Mesh(
@@ -61,7 +103,7 @@ ball.castShadow = true;
 ball.receiveShadow = true;
 
 scene.add(tableGroup, ball);
-scene.add(axesHelper);
+// scene.add(axesHelper);
 
 const player = new THREE.Mesh(
 	new THREE.BoxGeometry(20 , 10 , 2),
@@ -70,6 +112,7 @@ const player = new THREE.Mesh(
 		// emissive: new THREE.Color(0xffffff), // Add emissive light to make it appear brighter
         // emissiveIntensity: 0.1, // Adjust the intensity as needed
 }));
+player.material.flatShading = true;
 player.position.x = 0;
 player.position.y = 12;
 player.position.z = 97;
@@ -80,7 +123,7 @@ player.receiveShadow = true;
 
 let plane = new THREE.Mesh(
 	new THREE.PlaneGeometry(1000, 1000),
-	new THREE.MeshBasicMaterial());
+	new THREE.MeshBasicMaterial({visible : false}));
 plane.rotation.x = -Math.PI / 2;
 plane.position.y = 7;
 plane.position.z = 60;
@@ -93,13 +136,48 @@ scene.add(player);
 
 // max is 174
 
+
+const Theight = new THREE.TextureLoader().load("./tableAssets/Terrazzo_003_height.jpg");
+const Tnormal = new THREE.TextureLoader().load("./tableAssets/Terrazzo_003_normal.jpg");
+const Troughness = new THREE.TextureLoader().load("./tableAssets/Terrazzo_003_roughness.jpg");
+const TambientOcclusion = new THREE.TextureLoader().load("./tableAssets/Terrazzo_003_ambientOcclusion.jpg");
+const Tcolor = new THREE.TextureLoader().load("./tableAssets/Terrazzo_003_basecolor.jpg");
+
+const sunMaterial = new THREE.MeshBasicMaterial({
+    map : new THREE.TextureLoader().load('sun.jpg') 
+});
+
+// Sun mesh
+const sun = new THREE.Mesh(
+    new THREE.SphereGeometry(100, 64, 64),
+    sunMaterial
+);
+// sun.position.x = 0;
+// sun.position.y = 0;
+// sun.position.z = 0;
+sun.position.copy(pointLight.position);
+scene.add(sun);
+
 const table = new THREE.Mesh(
 	new THREE.BoxGeometry(140 , 2 , 200),
 	new THREE.MeshStandardMaterial({
-		color : "blue",
-		emissive: new THREE.Color(0xffffff), // Add emissive light to make it appear brighter
-        emissiveIntensity: 0.1, // Adjust the intensity as needed
+		// color : "blue",
+		map : Tcolor,
+		aoMap : TambientOcclusion,
+		aoMapIntensity : 0.4,
+		displacmentMap: Theight,
+		metalness : 0,
+		// envMap: sunMaterial.map,
+		// emissive: new THREE.Color(0xffffff), // Add emissive light to make it appear brighter
+        // emissiveIntensity: 0.1, // Adjust the intensity as needed
+		normalMap : Tnormal,
+		roughness : 0,
+		roughnessMap : Troughness
 		}));
+		table.geometry.setAttribute(
+			"uv2",
+			new THREE.BufferAttribute(table.geometry.attributes.uv.array, 2)
+		);
 		table.castShadow = true;
 		table.receiveShadow = true;
 		
@@ -147,49 +225,68 @@ const table = new THREE.Mesh(
 		
 		tableGroup.add(table, fil, out0,out1,out2,out3,out4);
 		
-		const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1 , 2000);
-		camera.position.z = 180;
-		camera.position.y = 120;
+		const camera = new THREE.PerspectiveCamera(75, Width / Height, 0.1 , 2000);
+		camera.position.z = 140;
+		camera.position.y = 70;
 		// camera.position.x = 0;
 		camera.lookAt(new THREE.Vector3(0, 0, 0));
 		scene.add(camera);
 		
 		const renderer = new THREE.WebGLRenderer( { antialias: true } );
-		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.setSize(Width, Height);
+		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.shadowMap.enabled = true;
 		document.body.appendChild(renderer.domElement);
 
+		renderer.toneMapping = THREE.NoToneMapping;
+
 		
 		
-		const light1 = new THREE.SpotLight()
-		light1.position.set(ball.position.x, ball.position.y, ball.position.z);
-		// light1.angle = Math.PI / 2
-		light1.penumbra = 0.5
-		light1.castShadow = true
-		light1.shadow.mapSize.width = 1024
-light1.shadow.mapSize.height = 1024
-light1.shadow.camera.near = 2.0
-light1.shadow.camera.far = 75
-// scene.add(light1)
+		const Spotlight = new THREE.SpotLight()
+		Spotlight.position.set(ball.position.x, ball.position.y, ball.position.z);
+		// Spotlight.angle = Math.PI / 2
+		Spotlight.penumbra = 0.5
+		Spotlight.castShadow = true
+		Spotlight.shadow.mapSize.width = 1024
+		Spotlight.shadow.mapSize.height = 1024
+		Spotlight.shadow.camera.near = 2.0
+		Spotlight.shadow.camera.far = 75
+		// scene.add(Spotlight);
+
+		let lightProbe = new THREE.LightProbe();
+		lightProbe.visible = false;
+		scene.add( lightProbe );
+
+const lightFolder = gui.addFolder('Lights');
 
 gui.add(camera.position, "x",);
 gui.add(camera.position, "y");
 gui.add(camera.position, "z");
 gui.add(player, "visible").name("player");
-gui.add(plane, "visible").name("plane");
+gui.add(plane.material, "visible").name("plane");
 gui.add(player.material, "wireframe");
+lightFolder.add(AmbientLight, "visible").name("ambientLight");
+lightFolder.add(pointLight, "visible").name("pointtLight");
+lightFolder.add(lightProbe, "visible").name("LightProbe");
+lightFolder.add(directionalLight, "visible").name("directionalLight");
+lightFolder.add(drh, "visible").name("light Helper");
 
 
 
-// const controls = new OrbitControls( camera, renderer.domElement );
-// controls.enableDamping = true;	
-// controls.target.y = 0.5;
+
+
+
+const controls = new OrbitControls( camera, renderer.domElement );
+controls.enableDamping = true;	
+controls.target.y = 0.5;
 
 renderer.render(scene, camera);
 
 window.addEventListener("resize", () => {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	renderer.setSize(window.innerWidth , window.innerHeight);
+	Width = window.innerWidth * 0.80;
+	Height = window.innerHeight * 0.80;
+	camera.aspect = Width / Height;
+	renderer.setSize(Width , Height);
 	camera.updateProjectionMatrix();
 });
 
@@ -197,13 +294,13 @@ let cursorx = 0;
 let cursorz = 0;
 
 // window.addEventListener("mousemove", (event) => {
-//     cursorx = (camera.position.z * (event.clientX / window.innerWidth) * (75 * (Math.PI / 180))) - 140;
-//     cursorz = (camera.position.z * (event.clientY / window.innerHeight) * (75 * (Math.PI / 180))) - window.innerHeight;
+//     cursorx = (camera.position.z * (event.clientX / Width) * (75 * (Math.PI / 180))) - 140;
+//     cursorz = (camera.position.z * (event.clientY / Height) * (75 * (Math.PI / 180))) - Height;
 
 	// Convert screen coordinates to normalized device coordinates (-1 to +1)
 	// const mouse = new THREE.Vector2(
-	// 	(event.clientX / window.innerWidth) * 2 - 1,
-	// 	-(event.clientY / window.innerHeight) * 2 + 1
+	// 	(event.clientX / Width) * 2 - 1,
+	// 	-(event.clientY / Height) * 2 + 1
 	//   );
 
 	//   // Convert normalized device coordinates to 3D coordinates
@@ -254,27 +351,27 @@ function animate(){
 	// else if(player.position.x > 30 ) camera.position.x = player.position.x / 4;
 	// else camera.position.x = 0;
 
-	// camera.position.x = player.position.x / 3;
+	// camera.position.x = ball.position.x / 3;
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 	
 	let speed = (Math.sin(elapsedTime * 13 ) + 1.3);
 	ball.position.y = speed * 10;
-	ball.position.x = Math.sin(elapsedTime) * 20;
-	ball.position.z = Math.sin(elapsedTime * 2) * 96;
+	ball.position.x = Math.sin(elapsedTime * 1.2) * 50;
+	ball.position.z = Math.sin(elapsedTime * 0.8) * 96;
 	
 	
-	light1.position.set(player.position.x , player.position.y + 2, player.position.z + 2);
-	light1.angle = Math.PI / ((Math.sin(elapsedTime * 2) + 2 ) * 4);
+	Spotlight.position.set(player.position.x , player.position.y + 2, player.position.z + 2);
+	Spotlight.angle = Math.PI / ((Math.sin(elapsedTime * 2) + 2 ) * 4);
 	// console.log((Math.sin(elapsedTime) + 2 ) * 3);
 
 	// console.log("scene x : " + cursorx);
-	// console.log("window x : " , window.innerWidth);
-	// console.log("window y : " , window.innerHeight);
+	// console.log("window x : " , Width);
+	// console.log("window y : " , Height);
 
 	// console.log("camera z = ", camera.position.z);
 	// console.log("")
-	// controls.update();
+	controls.update();
 	renderer.render( scene, camera );
 	window.requestAnimationFrame(animate);
 };
@@ -285,8 +382,8 @@ animate();
 
 function onMouseMove(event) {
 	// Normalize mouse coordinates
-	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-	mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+	mouse.x = (event.clientX / Width) * 2 - 1;
+	mouse.y = -(event.clientY / Height) * 2 + 1;
 
 	// Update the picking ray with the camera and mouse position
 	raycaster.setFromCamera(mouse, camera);

@@ -1,7 +1,7 @@
 import { Camera } from 'three';
 import { Projector, ThreeMFLoader, Wireframe } from 'three/examples/jsm/Addons.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { cameraNear, color, modelNormalMatrix, modelViewMatrix, uv, varying, vec2 } from 'three/examples/jsm/nodes/Nodes.js';
+import { cameraNear, color, modelNormalMatrix, modelViewMatrix, normalMap, uv, varying, vec2 } from 'three/examples/jsm/nodes/Nodes.js';
 
 
 // Create the renderer
@@ -103,10 +103,8 @@ const uniforms = {
 };
 
 // Sun material with shaders
-const sunMaterial = new THREE.ShaderMaterial({
-    uniforms: uniforms,
-    vertexShader: vertexShader,
-    fragmentShader: fragmentShader
+const sunMaterial = new THREE.MeshBasicMaterial({
+    map : new THREE.TextureLoader().load('sun.jpg') 
 });
 
 // Sun mesh
@@ -152,6 +150,7 @@ const earth = new THREE.Mesh(
     new THREE.SphereGeometry(0.8, 64, 64),
     new THREE.MeshStandardMaterial({
         map : earthTexture,
+        // normalMap : new THREE.TextureLoader().load('earth_normal.tif'),
         emissive: new THREE.Color(0xffffff), // Add emissive light to make it appear brighter
         emissiveIntensity: 0.01, // Adjust the intensity as needed
     })
@@ -292,7 +291,7 @@ function animate()
     const elapsedTime = clock.getElapsedTime();
 
 
-    sunMaterial.uniforms.time.value = elapsedTime;
+    // sunMaterial.uniforms.time.value = elapsedTime;
 
     makemake.position.x = Math.cos(elapsedTime * 0.1) * 5;
     makemake.position.z = Math.sin(elapsedTime * 0.1) * 5;

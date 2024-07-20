@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - light probe</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+	</head>
+
+	<body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+		<div id="info">
+			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - light probe
+		</div>
+        <script type="importmap">
+			{
+				"imports": {
+					"three": "../build/three.module.js",
+					"three/addons/": "./jsm/"
+				}
+			}
+		</script>
+
+		<script type="module">
+
+			// import * as THREE from 'three';
+
+			// import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+
+			// import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+			// import { LightProbeGenerator } from 'three/addons/lights/LightProbeGenerator.js';
+
+			// Set up the scene, camera, and renderer
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer();
+
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// Create a geometry
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+
+// Create a material
+const material = new THREE.MeshPhysicalMaterial({
+  color: 0xff2a1f,    // Optional: set the color
+  transparent: true,
+  roughness: 0,       // Smooth surface
+  transmission: 0.5,    // Fully transparent
+  thickness: 1        // Optional: thickness of the material, useful for refraction
+});
+
+// Create a mesh
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+
+const plane = new THREE.Mesh(
+	new THREE.PlaneGeometry(20, 20),
+	new THREE.MeshBasicMaterial({
+		map : new THREE.TextureLoader().load("../portfolio/assets/test.webp")
+	})
+);
+plane.position.z = -2;
+scene.add(plane);
+
+// Position the camera
+camera.position.z = 5;
+
+// Add lighting to the scene
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft white light
+scene.add(ambientLight);
+
+const pointLight = new THREE.PointLight(0xffffff, 1);
+pointLight.position.set(5, 5, 5);
+scene.add(pointLight);
+
+// Animation loop
+function animate() {
+  requestAnimationFrame(animate);
+
+  // Rotate the cube for some basic animation
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
+
+  renderer.render(scene, camera);
+}
+animate();
+
+		</script>
+
+	</body>
+</html>

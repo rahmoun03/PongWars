@@ -1,0 +1,100 @@
+{
+  "hash": "16a4506e",
+  "configHash": "49acd256",
+  "lockfileHash": "e3b0c442",
+  "browserHash": "16be9dc6",
+  "optimized": {
+    "lil-gui": {
+      "src": "../../node_modules/lil-gui/dist/lil-gui.esm.js",
+      "file": "lil-gui.js",
+      "fileHash": "0f691e08",
+      "needsInterop": false
+    },
+    "three": {
+      "src": "../../node_modules/three/build/three.module.js",
+      "file": "three.js",
+      "fileHash": "ce4c8a8f",
+      "needsInterop": false
+    },
+    "three/addons/controls/OrbitControls.js": {
+      "src": "../../node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "file": "three_addons_controls_OrbitControls__js.js",
+      "fileHash": "bd830673",
+      "needsInterop": false
+    },
+    "three/addons/libs/lil-gui.module.min.js": {
+      "src": "../../node_modules/three/examples/jsm/libs/lil-gui.module.min.js",
+      "file": "three_addons_libs_lil-gui__module__min__js.js",
+      "fileHash": "f3dc3cde",
+      "needsInterop": false
+    },
+    "three/addons/lights/LightProbeGenerator.js": {
+      "src": "../../node_modules/three/examples/jsm/lights/LightProbeGenerator.js",
+      "file": "three_addons_lights_LightProbeGenerator__js.js",
+      "fileHash": "7f5f4db5",
+      "needsInterop": false
+    },
+    "three/examples/jsm/Addons.js": {
+      "src": "../../node_modules/three/examples/jsm/Addons.js",
+      "file": "three_examples_jsm_Addons__js.js",
+      "fileHash": "c53c3180",
+      "needsInterop": false
+    },
+    "three/examples/jsm/controls/OrbitControls": {
+      "src": "../../node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "file": "three_examples_jsm_controls_OrbitControls.js",
+      "fileHash": "1be320c8",
+      "needsInterop": false
+    },
+    "three/examples/jsm/nodes/Nodes.js": {
+      "src": "../../node_modules/three/examples/jsm/nodes/Nodes.js",
+      "file": "three_examples_jsm_nodes_Nodes__js.js",
+      "fileHash": "4e618331",
+      "needsInterop": false
+    },
+    "three/addons/geometries/TextGeometry.js": {
+      "src": "../../node_modules/three/examples/jsm/geometries/TextGeometry.js",
+      "file": "three_addons_geometries_TextGeometry__js.js",
+      "fileHash": "22ba6b35",
+      "needsInterop": false
+    },
+    "three/addons/controls/ArcballControls.js": {
+      "src": "../../node_modules/three/examples/jsm/controls/ArcballControls.js",
+      "file": "three_addons_controls_ArcballControls__js.js",
+      "fileHash": "4bd377eb",
+      "needsInterop": false
+    },
+    "three/addons/controls/DragControls.js": {
+      "src": "../../node_modules/three/examples/jsm/controls/DragControls.js",
+      "file": "three_addons_controls_DragControls__js.js",
+      "fileHash": "b70b2b01",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-KLLGARVI": {
+      "file": "chunk-KLLGARVI.js"
+    },
+    "chunk-WDZHSZL2": {
+      "file": "chunk-WDZHSZL2.js"
+    },
+    "chunk-Q7QSQH3J": {
+      "file": "chunk-Q7QSQH3J.js"
+    },
+    "chunk-KGQ5CB5M": {
+      "file": "chunk-KGQ5CB5M.js"
+    },
+    "chunk-R4WSB7HQ": {
+      "file": "chunk-R4WSB7HQ.js"
+    },
+    "chunk-6XGZTSE5": {
+      "file": "chunk-6XGZTSE5.js"
+    },
+    "chunk-LCF6B46P": {
+      "file": "chunk-LCF6B46P.js"
+    },
+    "chunk-PZ5AY32C": {
+      "file": "chunk-PZ5AY32C.js"
+    }
+  }
+}

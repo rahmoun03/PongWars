@@ -1,0 +1,75 @@
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+
+body , html{
+    margin: 0;
+    font-family: "VT323", monospace;
+    font-weight: 400;
+    font-style: normal;
+    font-size: larger;
+    gap: 5%;
+}
+
+#canvas
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+    z-index: -1;
+}
+
+/* left-bar {
+    position: fixed;
+    left: 10px;
+    top: 15%;
+    width: 8%;
+    height: 70%;
+    border: 2px solid silver;
+    background: rgba(192, 192, 192, 0.19);
+    border-radius: 10px;
+} */
+
+/* right-bar {
+    position: fixed;
+    right: 10px;
+    top: 15%;
+    width: 8%;
+    height: 70%;
+    border: 2px solid silver;
+    background: rgba(192, 192, 192, 0.19);
+    border-radius: 10px;
+} */
+
+.section {
+    padding-left: 10%;
+    padding-right: 10%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    height: 100vh;
+    color: aliceblue;
+    position: relative;
+    gap: 50px;
+}
+
+.section .whoami{
+    
+    width: 80%;
+    height: 90%;
+    border-radius: 10px;
+    border: 2px solid silver;
+    background: rgba(192, 192, 192, 0.2);
+}
+
+h5 {
+    color: brown;
+}
+
+.section .whoami p {
+    padding-left: 5%;
+    padding-right: 5%;
+    width: 90%;
+}

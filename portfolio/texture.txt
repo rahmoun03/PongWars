@@ -1,0 +1,48 @@
+    const WoodColor = new THREE.TextureLoader().load("./assets/Bark/Stylized_Bark_003_basecolor.png");
+    const WoodAO = new THREE.TextureLoader().load("./assets/Bark/Stylized_Bark_003_ambientOcclusion.png");
+    const WoodHeight = new THREE.TextureLoader().load("./assets/Bark/Stylized_Bark_003_height.png");
+    const WoodNormal = new THREE.TextureLoader().load("./assets/Bark/Stylized_Bark_003_normal.png");
+    const WoodRoughness = new THREE.TextureLoader().load("./assets/Bark/Stylized_Bark_003_roughness.png");
+
+
+    const RopeColor = new THREE.TextureLoader().load("./assets/Rope/Rope_001_basecolor.jpg");
+    const RopeAO = new THREE.TextureLoader().load("./assets/Rope/Rope_001_ambientOcclusion.jpg");
+    const RopeHeight = new THREE.TextureLoader().load("./assets/Rope/Rope_001_height.png");
+    const RopeNormal = new THREE.TextureLoader().load("./assets/Rope/Rope_001_normal.jpg");
+    const RopeRoughness = new THREE.TextureLoader().load("./assets/Rope/Rope_001_roughness.jpg");
+
+
+    const ConcreteAO = new THREE.TextureLoader().load("./assets/Concrete/Concrete_Wall_012_ambientOcclusion.jpg");
+    const ConcreteColor = new THREE.TextureLoader().load("./assets/Concrete/Concrete_Wall_012_basecolor.jpg");
+    const ConcreteHeight = new THREE.TextureLoader().load("./assets/Concrete/Concrete_Wall_012_height.png");
+    const ConcreteNormal = new THREE.TextureLoader().load("./assets/Concrete/Concrete_Wall_012_normal.jpg");
+    const ConcreteRoughness = new THREE.TextureLoader().load("./assets/Concrete/Concrete_Wall_012_roughness.jpg");
+
+
+    const WaterAO = new THREE.TextureLoader().load("./assets/Water/Water_Droplets_001_ambientOcclusion.jpg");
+    const WaterColor = new THREE.TextureLoader().load("./assets/Water/Water_Droplets_001_basecolor.jpg");
+    const WaterHeight = new THREE.TextureLoader().load("./assets/Water/Water_Droplets_001_height.png");
+    const WaterNormal = new THREE.TextureLoader().load("./assets/Water/Water_Droplets_001_normal.jpg");
+    const WaterRoughness = new THREE.TextureLoader().load("./assets/Water/Water_Droplets_001_roughness.jpg");
+    const WaterMask = new THREE.TextureLoader().load("./assets/Water/Water_Droplets_001_mask.jpg");
+
+
+    const MarbleAO = new THREE.TextureLoader().load("./assets/Marble/Marble_Red_004_ambientOcclusion.jpg");
+    const MarbleColor = new THREE.TextureLoader().load("./assets/Marble/Marble_Red_004_basecolor.jpg");
+    const MarbleHeight = new THREE.TextureLoader().load("./assets/Marble/Marble_Red_004_height.png");
+    const MarbleNormal = new THREE.TextureLoader().load("./assets/Marble/Marble_Red_004_normal.jpg");
+    const MarbleRoughness = new THREE.TextureLoader().load("./assets/Marble/Marble_Red_004_roughness.jpg");
+
+    const GlassAO = new THREE.TextureLoader().load("./assets/Glass/Glass_Stained_001_ambientOcclusion.jpg");
+    const GlassColor = new THREE.TextureLoader().load("./assets/Glass/Glass_Stained_001_basecolor.jpg");
+    const GlassHeight = new THREE.TextureLoader().load("./assets/Glass/Glass_Stained_001_height.png");
+    const GlassNormal = new THREE.TextureLoader().load("./assets/Glass/Glass_Stained_001_normal.jpg");
+    const GlassRoughness = new THREE.TextureLoader().load("./assets/Glass/Glass_Stained_001_roughness.jpg");
+    const GlassGlass = new THREE.TextureLoader().load("./assets/Glass/Glass_Stained_001_Glass.jpg");
+    const GlassMetallic = new THREE.TextureLoader().load("./assets/Glass/Glass_Stained_001_metallic.jpg");
+
+
+    const MelonNormal = new THREE.TextureLoader().load("./assets/Melon/food_watermelon_002_LOD6_normal.tif");
+    const MelonColor = new THREE.TextureLoader().load("./assets/Melon/food_watermelon_002_LOD6_albedo.tif");
+    const MelonRoughness = new THREE.TextureLoader().load("./assets/Melon/food_watermelon_002_LOD6_roughness.tif");
+

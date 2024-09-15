@@ -1,0 +1,11 @@
+Model Information:
+* title:	Table tennis
+* source:	https://sketchfab.com/3d-models/table-tennis-b992439351cd416c972ce56b1839ee9a
+* author:	Neo_minigan (https://sketchfab.com/neominigan)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Table tennis" (https://sketchfab.com/3d-models/table-tennis-b992439351cd416c972ce56b1839ee9a) by Neo_minigan (https://sketchfab.com/neominigan) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

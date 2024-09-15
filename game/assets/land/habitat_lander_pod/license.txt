@@ -1,0 +1,11 @@
+Model Information:
+* title:	Habitat Lander Pod
+* source:	https://sketchfab.com/3d-models/habitat-lander-pod-9a55af34f7654097bd72f0642d83ccce
+* author:	jmleach1987 (https://sketchfab.com/jmleach1987)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Habitat Lander Pod" (https://sketchfab.com/3d-models/habitat-lander-pod-9a55af34f7654097bd72f0642d83ccce) by jmleach1987 (https://sketchfab.com/jmleach1987) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,11 @@
+Model Information:
+* title:	ping-pong
+* source:	https://sketchfab.com/3d-models/ping-pong-3b1ffcb84a164cf9a488218bbf4ed3f9
+* author:	КРИСТАЛЛИЧЕСКАЯ ПУДРА (https://sketchfab.com/crystallflour)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "ping-pong" (https://sketchfab.com/3d-models/ping-pong-3b1ffcb84a164cf9a488218bbf4ed3f9) by КРИСТАЛЛИЧЕСКАЯ ПУДРА (https://sketchfab.com/crystallflour) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

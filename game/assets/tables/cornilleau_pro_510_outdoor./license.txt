@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cornilleau PRO 510 Outdoor.
+* source:	https://sketchfab.com/3d-models/cornilleau-pro-510-outdoor-b5acd505414846f2a703ee6b7f23dd6c
+* author:	StarTone (https://sketchfab.com/StarTone)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cornilleau PRO 510 Outdoor." (https://sketchfab.com/3d-models/cornilleau-pro-510-outdoor-b5acd505414846f2a703ee6b7f23dd6c) by StarTone (https://sketchfab.com/StarTone) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

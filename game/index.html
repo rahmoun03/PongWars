@@ -6,52 +6,70 @@
     <title>3D something</title>
     <style>
         body, html {
-            height: 100%;
+            height: 100vh;
+            width: 100vw;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
         }
         
-        canvas {
-            display: flex;
-            /* border-radius: 10px; */
-            border: 2px solid darkred;
+        .canvas_container canvas {
+            display: none;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid blue;
         }
         .canvas_container
         {
             display: flex;
+            border: 4px solid darkred;
+            background-color: burlywood;
             justify-content: center;
             align-items: center;
-            width: 100%;
-            height: 100%;        
+            width: 80%;
+            height: 80%;    
         }
     </style>
+
 </head>
-<body>    
+<body>
+    
+    <!-- FontLoader -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/FontLoader.js"></script>
+    
+    
+    <!-- TextGeometry -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/geometries/TextGeometry.js"></script>
+    
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
+    
     <!-- OrbitControls -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-
+    
     <!-- GLTFLoader -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-
+    
     <!-- RGBELoader -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
-
+    
     <!-- Stats (FPS counter) -->
     <script src="https://cdn.jsdelivr.net/npm/stats.js@0.17.0/build/stats.min.js"></script>
-
+    
     <!-- lil-gui -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
-
     
     
-    <div class="canvas_container">
+    
+    <div class="canvas_container" id="CC">
         <canvas id="Mycanvas"></canvas>
+        <game-start></game-start>
     </div>
-    <script type="module" src="challengeMode.js"></script>
+    <script type="module" src="game.js"></script>
+    <script type="module" src="starWar.js"></script>
+    <script type="module" src="loby.js"></script>
 </body>
 </html>

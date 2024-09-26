@@ -44,7 +44,7 @@ class GameStart extends HTMLElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      // padding: 20px;
+      padding: 20px;
       border-radius: 10px;
     }
     

@@ -16,6 +16,8 @@ window.spaceShip = function () {
 
     let helperBox;
 
+    const clock = new THREE.Clock();
+
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 2000);
 
     const renderer = new THREE.WebGLRenderer( {canvas: canvas, antialias: true} );
@@ -24,66 +26,79 @@ window.spaceShip = function () {
 
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-    const light = new THREE.AmbientLight(0xffffff, 7);
+    const light = new THREE.AmbientLight(0xffffff, 6);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
 
     const stats = new Stats();
 
-    stats.showPanel(1);
+    stats.showPanel(0);
 
     document.body.appendChild(stats.dom);
 
     directionalLight.position.set(0, 1, 1);
 
-    scene.add(light);
+    // scene.add(light);
 
     scene.add(directionalLight);
 
     camera.position.set(2, 3, 10);
 
-    const spaceShip = new THREE.Object3D();
+    let spaceShip = new THREE.Object3D();
 
     let ships = [];
 
     let Particles;
 
-    loader.load('./assets/spaceShips/spaceship.glb', function (gltf) {
-        // spaceShip = gltf.scene;
-        ships.push(gltf.scene);
-        // spaceShip.position.set(0, 0, 5);
-        // scene.add(spaceShip);
-        // console.log();
+    const modelUrls = [
+        './assets/spaceShips/spaceship.glb',
+        './assets/spaceShips/namek_spaceship.glb',
+        './assets/spaceShips/spaceship_chair.glb',
+        './assets/spaceShips/toy_spaceship.glb',
+        './assets/spaceShips/bubblecraft_-_spaceship.glb',
+        './assets/spaceShips/low_poly_spaceship.glb',
+        './assets/spaceShips/stylised_spaceship.glb'
+    ];
+    
+    let loadedModelsCount = 0;
+
+    // loader.load("./assets/planets/kamisama_planet.glb", function (gltf) {
+    //     console.log("aaaaaaaaaaaa");
+    //     gltf.scene.position.set(-5, 0, 0);
+    //     scene.add(gltf.scene);
+    // });
+    
+    modelUrls.forEach(url => {
+        loader.load(url, function (gltf) {
+            const object3D = new THREE.Object3D();
+            object3D.add(gltf.scene);
+            ships.push(object3D);
+            
+            loadedModelsCount++;
+    
+            // Check if all models are loaded
+            if (loadedModelsCount === modelUrls.length) {
+                createSpaceShip();
+            }
+        },);
     });
-
-    loader.load('./assets/spaceShips/namek_spaceship.glb', function (gltf) {
-
-        spaceShip.scale.set(0.001, 0.001, 0.001);
-        ships.push(gltf.scene);
-    });
-
-    loader.load('./assets/spaceShips/low_poly_spaceship.glb', function (gltf) {
-        spaceShip.add(gltf.scene);
-        // spaceShip.scale.set(0.5, 0.5, 0.5);
-        ships.push(gltf.scene);
-    });
-
-    loader.load('./assets/spaceShips/toy_spaceship.glb', function (gltf) {
-        spaceShip.scale.set(5, 5, 5);
-
-        ships.push(gltf.scene);
-    });
-
-    function createSpaceShip() {
-        // spaceShip.position.set(0, 0, 5);
-        console.log(ships);
+    
+    function createSpaceShip() {        // Randomly select one model from the ships array
+        const randomIndex = Math.floor(Math.random() * ships.length);
+        spaceShip = ships[randomIndex];
+    
+        // Optionally position the model
+        spaceShip.position.set(0, 0, 0); // Adjust position as needed
+    
+        // Add the selected model to the scene
         scene.add(spaceShip);
+        console.log('Added model:', spaceShip);
     }
 
-    const animateSpaceShip = function () {
+    const animateSpaceShip = function (time) {
         if (spaceShip) {
             // spaceShip.rotation.x += 0.01;
-            spaceShip.rotation.y += 0.01;
+            spaceShip.position.y = Math.cos(time) * 0.5;
         }
     };
 
@@ -151,12 +166,11 @@ window.spaceShip = function () {
         }
     }
 
-
     const animate = function () {
         requestAnimationFrame(animate);
+        const elapsedTime = clock.getElapsedTime();
 
-
-        animateSpaceShip();
+        animateSpaceShip(elapsedTime);
         animateHelperBox();
         animateParticles();
         controls.update();
@@ -165,7 +179,7 @@ window.spaceShip = function () {
         renderer.render(scene, camera);
     };
 
-    createSpaceShip();
+    // createSpaceShip();
     createParticls();
     createBox();
     animate();

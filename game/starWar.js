@@ -254,7 +254,7 @@ window.starWar = function ()
         
         if (playerPoints < 5 && bootPoints < 5)
         {
-            
+  
             // clock = new THREE.Clock();
             if(!startGame && start.x < 1)
             {
@@ -267,6 +267,7 @@ window.starWar = function ()
             }
             else if(startGame)
             {
+                
                 elapsedTime = clock.getElapsedTime();
                 updateCamera();
                 // console.log((1 / 2000) * 16.67);
@@ -319,14 +320,17 @@ window.starWar = function ()
             if(playerPoints == 5)
             {
                 endSound.play();
-                window.alert("Player Wins");
+                // window.alert("Player Wins");
+                console.log("Player Wins");
             }
             else if(bootPoints == 5)
             {
                 endSound.play();
-                window.alert("Boot Wins");
+                // window.alert("Boot Wins");
+                console.log("Boot Wins");
             }
         }
+
     }
 
     function table() {
@@ -570,7 +574,7 @@ window.starWar = function ()
             ParticlesMaterial
         )
         Particles.rotation.x = Math.PI / 2;
-        scene.add(Particles);
+        // scene.add(Particles);
     }
 
     function createBB(target) {
@@ -650,7 +654,7 @@ window.starWar = function ()
             rectLight4.color.set(0xff0000);
 
             playerPoints += 1;
-            bootSpeed += 0.025;
+            bootSpeed += 0.03;
             console.log("player : ", playerPoints);
             console.log("AIboot : ", bootPoints);
             ball.position.set(0, 0.1, 0);

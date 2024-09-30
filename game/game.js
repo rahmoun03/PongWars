@@ -13,7 +13,7 @@ window.play = function ()
 
     const axesHelper = new THREE.AxesHelper(width / 2);
 
-    let helperBox;
+    let helperBox, playerColletion;
 
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 2000);
 
@@ -165,6 +165,7 @@ window.play = function ()
     ballCreation();
     playerCreation();
     createScore();
+    createBox();
     // addCollections();
     // initBB();
     lights();
@@ -252,7 +253,8 @@ window.play = function ()
                 if((keys.ArrowLeft) && ((player1.position.x - (paddleSize.x / 2)) > -(tableWidth / 2) + 1)) player1.position.x -= playerSpeed;
                 else if((keys.ArrowRight) && ((player1.position.x + (paddleSize.x / 2)) < (tableWidth / 2) - 1)) player1.position.x += playerSpeed;
                 Spotlight1.position.copy(player1.position);
-                
+                playerColletion.position.copy(player1.position);
+
                 if(keys["1"] && Spotlight1.visible == false) Spotlight1.visible = true;
                 else if(keys["1"] == false && Spotlight1.visible == true) Spotlight1.visible = false;
                 
@@ -507,6 +509,7 @@ window.play = function ()
                 vertexColors: true,
                 transparent: true,
                 depthWrite: false,
+                emissiveIntensity: 1.0,
                 // blending: THREE.additiveBlending,
                 alphaMap : new THREE.TextureLoader().load('./assets/kenney_particle-pack/PNG (Transparent)/star_06.png'),
             });
@@ -546,6 +549,26 @@ window.play = function ()
     function ballDetection() {
         
         if (ball.position.z <= player1.position.z && ball.position.z >= player1.position.z - (speed + paddleSize.z)
+            && ((ball.position.x <= (player1.position.x + (paddleSize.x / 1.65))
+            && ball.position.x >= (player1.position.x + (paddleSize.x / 1.45)))
+            || (ball.position.x <= (player1.position.x - (paddleSize.x / 1.65))
+            && ball.position.x >= (player1.position.x - (paddleSize.x / 1.45))))) {
+                    boundaryHitSound.play();
+                    velocity.x = -velocity.x; // Reverse the X direction
+            
+        }
+
+        if (ball.position.z <= boot.position.z && ball.position.z >= boot.position.z - (speed + paddleSize.z)
+            && ((ball.position.x <= (boot.position.x + (paddleSize.x / 1.65))
+            && ball.position.x >= (boot.position.x + (paddleSize.x / 1.45)))
+            || (ball.position.x <= (boot.position.x - (paddleSize.x / 1.65))
+            && ball.position.x >= (boot.position.x - (paddleSize.x / 1.45))))) {
+                    boundaryHitSound.play();
+                    velocity.x = -velocity.x; // Reverse the X direction
+            
+        }
+
+        if (ball.position.z <= player1.position.z && ball.position.z >= player1.position.z - (speed + paddleSize.z)
             && ball.position.x <= (player1.position.x + (paddleSize.x / 1.5))
             && ball.position.x >= (player1.position.x - (paddleSize.x / 1.5))) {
                 boundaryHitSound.play();
@@ -553,11 +576,23 @@ window.play = function ()
                 velocity.x += (keys.ArrowLeft ? -0.5 : 0) * playerSpeed;
                 velocity.x += (keys.ArrowRight ? 0.5 : 0) * playerSpeed;
                 velocity.x += (Math.random() - 0.5) * 0.02;
-                console.log("X Velo : ", velocity.x);
+                console.log("Hit the player color changed");
+              
+              
+              
+                ball.material.color.set(0xff0000); // Change to red
+                setTimeout(() => {
+                    ball.material.color.set("orange"); // Change back to white
+                }, 400);
+             
+             
+             
+             
+             
                 velocity.z = -velocity.z; // Reverse the X direction
         }
             
-        else if (ball.position.z >= boot.position.z && ball.position.z <= boot.position.z + (speed + paddleSize.z)
+       if (ball.position.z >= boot.position.z && ball.position.z <= boot.position.z + (speed + paddleSize.z)
             && ball.position.x <= (boot.position.x + (paddleSize.x / 1.5))
             && ball.position.x >= (boot.position.x - (paddleSize.x / 1.5))) {
                 boundaryHitSound.play();
@@ -565,27 +600,16 @@ window.play = function ()
                 velocity.x += (keys.ArrowLeft ? -0.5 : 0) * playerSpeed;
                 velocity.x += (keys.ArrowRight ? 0.5 : 0) * playerSpeed;
                 velocity.x += (Math.random() - 0.5) * 0.02;
-                console.log("X Velo : ", velocity.x);
+                console.log("Hit the boot");
+
+                ball.material.color.set(0xff0000); // Change to red
+                setTimeout(() => {
+                    ball.material.color.set("orange"); // Change back to white
+                }, 400);
+
                 velocity.z = -velocity.z; // Reverse the X direction
         }
         
-        // if ((ballBB.intersectsBox(player1BB))
-        //     || ballBB.intersectsBox(bootBB))
-        // {
-        //     // if((ball.position.z >= player1.position.z - (paddleSize.z / 1.1)))
-        //     // {
-        //     //     velocity.x = -velocity.x;
-        //     // }
-        //     // else {
-
-        //         console.log("TOK in : ", ball.position.z, player1.position.z - (paddleSize.z / 1.1));
-        //         velocity.x += (keys.ArrowLeft ? -0.5 : 0) * playerSpeed;
-        //         velocity.x += (keys.ArrowRight ? 0.5 : 0) * playerSpeed;
-        //         velocity.x += (Math.random() - 0.5) * 0.02;
-        //         console.log("X Velo : ", velocity.x);
-        //         velocity.z = -velocity.z; // Reverse the X direction
-        //     // }
-        // }
         if ((ball.position.x >= (tableWidth / 2) - 1.5) || (ball.position.x <= -(tableWidth / 2) + 1.5))
         {
             boundaryHitSound.play();
@@ -621,6 +645,8 @@ window.play = function ()
             ball.position.set(0, 0.1, 0);
             velocity.x = speed;
             velocity.z = speed;
+            // createParticles(ball.position);
+            shakeCamera();
             updateScore();
         }
         else if(ball.position.z >= (tableHeight / 2)){
@@ -644,7 +670,9 @@ window.play = function ()
             ball.position.set(0, 0.1, 0);
             velocity.x = speed;
             velocity.z = speed;
+            shakeCamera();
             updateScore();
+            // createParticles(ball.position);
         }
     }
 
@@ -682,5 +710,58 @@ window.play = function ()
         createScore();
     }
 
+    function createBox() {
+        playerColletion = new THREE.Mesh(
+            new THREE.BoxGeometry(paddleSize.x + paddleSize.x / 1.5, paddleSize.y, paddleSize.z * 2),
+            new THREE.MeshBasicMaterial({wireframe : true})
+        );
+        playerColletion.position.copy(player1.position);
+        scene.add(playerColletion);
+    }
+
+    function createParticles(position) {
+        const particleCount = 50;
+        const particles = new THREE.Geometry();
+        const pMaterial = new THREE.PointsMaterial({
+            color: 0xffffff,
+            emissive: 0xffffff,
+            emissiveIntensity: 1.0,
+            size: 0.1,
+        });
+    
+        for (let p = 0; p < particleCount; p++) {
+            const pX = position.x + (Math.random() - 0.5);
+            const pY = position.y + (Math.random() - 0.5);
+            const pZ = position.z + (Math.random() - 0.5);
+            particles.vertices.push(new THREE.Vector3(pX, pY, pZ));
+        }
+    
+        particleSystem = new THREE.Points(particles, pMaterial);
+        scene.add(particleSystem);
+    
+        // Remove particles after a short duration
+        setTimeout(() => {
+            scene.remove(particleSystem);
+        }, 500);
+    }
+
+    function shakeCamera() {
+        const originalPosition = camera.position.clone();
+        const shakeStrength = 0.5;
+        const shakeDuration = 300; // in milliseconds
+    
+        const startTime = Date.now();
+        function shake() {
+            const elapsed = Date.now() - startTime;
+            if (elapsed < shakeDuration) {
+                camera.position.x = originalPosition.x + (Math.random() - 0.5) * shakeStrength;
+                camera.position.y = originalPosition.y + (Math.random() - 0.5) * shakeStrength;
+                requestAnimationFrame(shake);
+            } else {
+                camera.position.copy(originalPosition); // Reset camera position
+            }
+        }
+        shake();
+    }
 
 }

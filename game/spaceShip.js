@@ -28,7 +28,7 @@ window.spaceShip = function () {
 
     const light = new THREE.AmbientLight(0xffffff, 6);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1, 10);
 
     const stats = new Stats();
 
@@ -36,7 +36,7 @@ window.spaceShip = function () {
 
     document.body.appendChild(stats.dom);
 
-    directionalLight.position.set(0, 1, 1);
+    directionalLight.position.set(0, 20, 10);
 
     // scene.add(light);
 
@@ -47,6 +47,8 @@ window.spaceShip = function () {
     let spaceShip = new THREE.Object3D();
 
     let ships = [];
+
+    let planet = new THREE.Object3D();
 
     let Particles;
 
@@ -62,11 +64,12 @@ window.spaceShip = function () {
     
     let loadedModelsCount = 0;
 
-    // loader.load("./assets/planets/kamisama_planet.glb", function (gltf) {
-    //     console.log("aaaaaaaaaaaa");
-    //     gltf.scene.position.set(-5, 0, 0);
-    //     scene.add(gltf.scene);
-    // });
+    loader.load("./assets/planets/planet_one.glb", function (gltf) {
+        console.log("aaaaaaaaaaaa");
+        planet.add(gltf.scene);
+        planet.scale.set(6, 6, 6);
+        // scene.add(planet);
+    });
     
     modelUrls.forEach(url => {
         loader.load(url, function (gltf) {
@@ -78,7 +81,7 @@ window.spaceShip = function () {
     
             // Check if all models are loaded
             if (loadedModelsCount === modelUrls.length) {
-                createSpaceShip();
+                // createSpaceShip();
             }
         },);
     });
@@ -166,9 +169,14 @@ window.spaceShip = function () {
         }
     }
 
+
+
     const animate = function () {
         requestAnimationFrame(animate);
         const elapsedTime = clock.getElapsedTime();
+
+        planet.rotation.x += 0.001;
+        planet.rotation.y += 0.001;
 
         animateSpaceShip(elapsedTime);
         animateHelperBox();

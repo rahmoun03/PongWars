@@ -747,15 +747,15 @@ window.play = function ()
 
     function shakeCamera() {
         const originalPosition = camera.position.clone();
-        const shakeStrength = 0.5;
-        const shakeDuration = 300; // in milliseconds
+        const shakeStrength = 0.2;
+        const shakeDuration = 200; // in milliseconds
     
         const startTime = Date.now();
         function shake() {
             const elapsed = Date.now() - startTime;
             if (elapsed < shakeDuration) {
-                camera.position.x = originalPosition.x + (Math.random() - 0.5) * shakeStrength;
-                camera.position.y = originalPosition.y + (Math.random() - 0.5) * shakeStrength;
+                camera.position.x = originalPosition.x + ((Math.random() - 1) * 2) * shakeStrength;
+                camera.position.y = originalPosition.y + ((Math.random() - 1) * 2) * shakeStrength;
                 requestAnimationFrame(shake);
             } else {
                 camera.position.copy(originalPosition); // Reset camera position

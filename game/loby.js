@@ -2,6 +2,8 @@
 class GameStart extends HTMLElement {
   public
     section = 0;
+    switchButton = new Audio("./sound/switch.mp3");
+    click = new Audio("./sound/menu-click-89198.mp3");
   // this.section = {this.toggleMultiplayerOptions, this.toggleModes};
   constructor() {
     super();
@@ -12,6 +14,7 @@ class GameStart extends HTMLElement {
     // Create container div
     const container = document.createElement('div');
     container.classList.add('game-start-container');
+
     // Create buttons
     const playButton = this.createButton('Play');
     const multiplayerButton = this.createButton('Multiplayer'); 
@@ -39,41 +42,46 @@ class GameStart extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = `
     .game-start-container {
-      // transform: translate(-50%, -50%);
+      left: 0px;
+      width: 80vw;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      padding: 20px;
-      border-radius: 10px;
     }
-    
+
     button {
-      padding: 10px 20px;
-      margin: 10px;
-      font-size: 18px;
-      color: #ffffff;
-      background-color: darkred;
-      // border: 1px solid darkred;
-      border-radius: 5px;
+      padding: 10px 10px;
+      width: 30%;
+      margin-bottom: 5px;
+      font-family: "Press Start 2P", system-ui;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 12px;
+      color: white;
+      background-color: rgba(56, 75, 112, 0.4);
+      border: 1px solid rgba(56, 75, 112, 0.1);
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: 0.4s ease;
     }
     
     button.hidden {
-        display: none;
-      }
+      display: none;
+    }
 
-      button:nth-child(9) {
-        position: absolute;
-        top: 10%;
-        left: 10%;
-      }
+    button:nth-child(9) {
+      background-color: rgba(56, 75, 112, 1);
+    }
+
+    button:nth-child(1) {
+      color: #10ff10;
+    }
       
-      button:hover {
-        background-color: #21a1f1;
-      }
-      `;
+    button:hover {
+      background-color: rgba(56, 75, 112, 0.9);
+      color: #ffffff;
+      width: 40%;
+    }
+    `;
       
       // Attach everything to the shadow DOM
       shadow.appendChild(style);
@@ -86,11 +94,19 @@ class GameStart extends HTMLElement {
       if (additionalClass) {
       button.classList.add(additionalClass);
     }
+
     button.addEventListener('click', () => this.handleButtonClick(text));
+    
+    button.addEventListener("mouseover", () => {
+      console.log("hover button");
+      this.switchButton.play();
+    });
     return button;
   }
 
+
   handleButtonClick(buttonType) {
+    this.click.play();
     switch (buttonType) {
       case 'Play':
         this.remove();
@@ -141,10 +157,10 @@ class GameStart extends HTMLElement {
   }
 
   toggleMultiplayerOptions() {
-    this.shadowRoot.querySelector('button:nth-child(1)').classList.toggle('hidden');
-    this.shadowRoot.querySelector('button:nth-child(2)').classList.toggle('hidden');
     this.shadowRoot.querySelector('button:nth-child(8)').classList.toggle('hidden');
     this.shadowRoot.querySelector('button:nth-child(9)').classList.toggle('hidden');
+    this.shadowRoot.querySelector('button:nth-child(1)').classList.toggle('hidden');
+    this.shadowRoot.querySelector('button:nth-child(2)').classList.toggle('hidden');
     this.shadowRoot.querySelector('button:nth-child(3)').classList.toggle('hidden');
     this.shadowRoot.querySelector('button:nth-child(4)').classList.toggle('hidden');
 

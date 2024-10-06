@@ -25,6 +25,7 @@ class GameStart extends HTMLElement {
     const timeAttackButton = this.createButton('Time Attack', 'hidden');
     const tournamentButton = this.createButton('Tournament');
     const backButton = this.createButton('Back', 'hidden');
+    const testButton = this.createButton('test');
     
     // Append buttons to container
     container.appendChild(playButton);
@@ -36,6 +37,7 @@ class GameStart extends HTMLElement {
     container.appendChild(timeAttackButton);
     container.appendChild(tournamentButton);
     container.appendChild(backButton);
+    container.appendChild(testButton);
     
     
     // Attach styles
@@ -59,7 +61,7 @@ class GameStart extends HTMLElement {
       font-size: 12px;
       color: white;
       background-color: rgba(56, 75, 112, 0.4);
-      border: 1px solid rgba(56, 75, 112, 0.1);
+      border: 1px solid rgba(56, 75, 112, 0);
       cursor: pointer;
       transition: 0.4s ease;
     }
@@ -77,7 +79,8 @@ class GameStart extends HTMLElement {
     }
       
     button:hover {
-      background-color: rgba(56, 75, 112, 0.9);
+      background-color: rgba(152, 252, 217, 0.0);
+      background-image: linear-gradient(to right, rgba(152, 252, 217, 1) , rgba(0,0,0, 0.0));
       color: #ffffff;
       width: 40%;
     }
@@ -142,6 +145,11 @@ class GameStart extends HTMLElement {
         break;
       case 'Turnament':
         console.log('Turnament');
+        break;
+      case 'test':
+        console.log('test');
+        document.getElementById('CC').style.display = 'none';
+        window.test();
         break;
       case 'Back':
         if(this.section == 1)

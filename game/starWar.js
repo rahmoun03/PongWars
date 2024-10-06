@@ -1,4 +1,4 @@
-
+import { getParticleSystem } from "./get_particles.js";
 window.starWar = function ()
 {
     const canvas = document.getElementById("Mycanvas");
@@ -105,6 +105,26 @@ window.starWar = function ()
     const collectSound = new THREE.Audio(listener);
 
     const audioLoader = new THREE.AudioLoader();
+
+    const VfxTest = getParticleSystem({
+        camera,
+        emitter: ball,
+        parent: scene,
+        rate: 10,
+        texture: './assets/kenney_particle-pack/PNG (Transparent)/star_09.png'
+    });
+    const Points = scene.getChildByName("Points");
+    console.log("Points", Points);
+    Points.visible = false;
+
+    function createParticles(position) {
+        Points.position.copy(position);
+        Points.visible = true;
+        // Remove particles after a short duration
+        setTimeout(() => {
+            Points.visible = false;
+        }, 500);
+    }
 
     // Load paddle hit sound
     audioLoader.load('sound/what-a-fuck-120320.mp3', function(buffer) {
@@ -607,6 +627,7 @@ window.starWar = function ()
             && ball.position.x <= (player1.position.x + ((paddleSize.x * player1.scale.x) / 1.5))
             && ball.position.x >= (player1.position.x - ((paddleSize.x * player1.scale.x) / 1.5))) {
                 boundaryHitSound.play();
+                createParticles(ball.position);
                 // console.log("ball Z ", ball.position.z , "Player Z "  , player1.position.z - (paddleSize.z));
                 velocity.x += (keys.ArrowLeft ? -0.5 : 0) * playerSpeed;
                 velocity.x += (keys.ArrowRight ? 0.5 : 0) * playerSpeed;
@@ -619,6 +640,7 @@ window.starWar = function ()
             && ball.position.x <= (boot.position.x + ((paddleSize.x * boot.scale.x) / 1.5))
             && ball.position.x >= (boot.position.x - ((paddleSize.x * boot.scale.x) / 1.5))) {
                 boundaryHitSound.play();
+                createParticles(ball.position);
                 // console.log("ball Z ", ball.position.z , "boot Z "  , boot.position.z - (paddleSize.z));
                 velocity.x += (keys.ArrowLeft ? -0.5 : 0) * playerSpeed;
                 velocity.x += (keys.ArrowRight ? 0.5 : 0) * playerSpeed;
@@ -629,6 +651,7 @@ window.starWar = function ()
         
         if ((ball.position.x >= (tableWidth / 2) - 1.5) || (ball.position.x <= -(tableWidth / 2) + 1.5))
         {
+            createParticles(ball.position);
             boundaryHitSound.play();
             // console.log("TOK");
             velocity.x = -velocity.x; // Reverse the X direction
@@ -660,6 +683,7 @@ window.starWar = function ()
             ball.position.set(0, 0.1, 0);
             velocity.x = speed;
             velocity.z = speed;
+            shakeCamera();
             updateScore();
         }
         else if(ball.position.z >= (tableHeight / 2)){
@@ -683,6 +707,7 @@ window.starWar = function ()
             ball.position.set(0, 0.1, 0);
             velocity.x = speed;
             velocity.z = speed;
+            shakeCamera();
             updateScore();
         }
     }
@@ -760,5 +785,24 @@ window.starWar = function ()
             else if(velocity.z > 0)
                 activatePowerUp(boot);
         }
+    }
+
+    function shakeCamera() {
+        const originalPosition = camera.position.clone();
+        const shakeStrength = 0.2;
+        const shakeDuration = 200; // in milliseconds
+    
+        const startTime = Date.now();
+        function shake() {
+            const elapsed = Date.now() - startTime;
+            if (elapsed < shakeDuration) {
+                camera.position.x = originalPosition.x + ((Math.random() - 1) * 2) * shakeStrength;
+                camera.position.y = originalPosition.y + ((Math.random() - 1) * 2) * shakeStrength;
+                requestAnimationFrame(shake);
+            } else {
+                camera.position.copy(originalPosition); // Reset camera position
+            }
+        }
+        shake();
     }
 }

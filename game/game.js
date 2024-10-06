@@ -54,7 +54,8 @@ window.play = function ()
     let WallLBB, WallRBB, WallL1BB, WallR1BB;
     let rectLight1, rectLight2, rectLight3, rectLight4;
 
-    let ball, ballBB, directionalLight, Spotlight1, Spotlight2;
+    let ball = new THREE.Object3D();
+    let ballBB, directionalLight, Spotlight1, Spotlight2;
     let radius, speed, start, elapsedTime, checkpoint;
     radius = tableHeight / 2;
     speed = 0.2;
@@ -397,6 +398,9 @@ window.play = function ()
     }
 
     function ballCreation() {
+        // loader.load('./assets/ball/fireballvfx.fbx', (gltf) => {
+        //     ball.add(gltf.scene);
+        // });
         ball = new THREE.Mesh(
             new THREE.SphereGeometry(0.5, 32, 32),
             new THREE.MeshToonMaterial( { 
@@ -422,7 +426,7 @@ window.play = function ()
 
     function lights()
     {
-        directionalLight = new THREE.DirectionalLight(0xfdfbd3, 0.3);
+        directionalLight = new THREE.DirectionalLight(0xfdfbd3, 1);
         directionalLight.position.set(0, 10, 0);
         directionalLight.castShadow = true;
         // scene.add(directionalLight);
@@ -509,7 +513,7 @@ window.play = function ()
                 vertexColors: true,
                 transparent: true,
                 depthWrite: false,
-                emissiveIntensity: 1.0,
+                // emissiveIntensity: 1.0,
                 // blending: THREE.additiveBlending,
                 alphaMap : new THREE.TextureLoader().load('./assets/kenney_particle-pack/PNG (Transparent)/star_06.png'),
             });
@@ -517,7 +521,7 @@ window.play = function ()
         const Particles = new THREE.Points(
             ParticleGeometry,
             ParticlesMaterial
-        )
+        );
         Particles.rotation.x = Math.PI / 2;
         scene.add(Particles);
     }
@@ -720,13 +724,14 @@ window.play = function ()
     }
 
     function createParticles(position) {
+        console.log("create VFX");
         const particleCount = 50;
         const particles = new THREE.Geometry();
         const pMaterial = new THREE.PointsMaterial({
             color: 0xffffff,
             emissive: 0xffffff,
             emissiveIntensity: 1.0,
-            size: 0.1,
+            size: 0.2,
         });
     
         for (let p = 0; p < particleCount; p++) {

@@ -6,6 +6,7 @@ window.spaceShip = function () {
     const gui = new dat.GUI();
 
     const loader = new THREE.GLTFLoader();
+    const fbxLoader = new THREE.FBXLoader();
 
     const scene = new THREE.Scene();
 
@@ -40,7 +41,7 @@ window.spaceShip = function () {
 
     // scene.add(light);
 
-    scene.add(directionalLight);
+    // scene.add(directionalLight);
 
     camera.position.set(2, 3, 10);
 
@@ -49,6 +50,7 @@ window.spaceShip = function () {
     let ships = [];
 
     let planet = new THREE.Object3D();
+    let blackHole = new THREE.Object3D();
 
     let Particles;
 
@@ -64,12 +66,42 @@ window.spaceShip = function () {
     
     let loadedModelsCount = 0;
 
-    loader.load("./assets/planets/planet_one.glb", function (gltf) {
+    loader.load("./assets/spaceShips/stylised_spaceship.glb", function (gltf) {
         console.log("aaaaaaaaaaaa");
         planet.add(gltf.scene);
         planet.scale.set(6, 6, 6);
         // scene.add(planet);
+
+
+
+
     });
+
+    
+    fbxLoader.load("./assets/planets/black-hole/source/blackhole.fbx", function (gltf) {
+        blackHole.add(gltf);
+        blackHole.scale.set(0.001, 0.001, 0.001);
+
+        console.log("black hole", blackHole);
+        scene.add(blackHole);
+
+        // const box = new THREE.Box3().setFromObject(blackHole);
+
+        // // Calculate the size of the bounding box
+        // const sphere = new THREE.Sphere();
+        // box.getBoundingSphere(sphere);
+
+        // console.log('Bounding Sphere Center:', sphere.center);
+        // console.log('Bounding Sphere Radius:', sphere.radius);
+
+        // helperBox = new THREE.Mesh(
+        //     new THREE.SphereGeometry(sphere.radius + 1, 32),
+        //     new THREE.MeshBasicMaterial({color : "white"})
+        // );
+        // scene.add(helperBox);
+
+    });
+
     
     modelUrls.forEach(url => {
         loader.load(url, function (gltf) {
@@ -175,8 +207,8 @@ window.spaceShip = function () {
         requestAnimationFrame(animate);
         const elapsedTime = clock.getElapsedTime();
 
-        planet.rotation.x += 0.001;
-        planet.rotation.y += 0.001;
+        // planet.rotation.x += 0.001;
+        blackHole.rotation.y += 0.001;
 
         animateSpaceShip(elapsedTime);
         animateHelperBox();

@@ -29,7 +29,7 @@ window.spaceShip = function () {
 
     const light = new THREE.AmbientLight(0xffffff, 6);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1, 10);
+    const directionalLight = new THREE.DirectionalLight(0x00aaff, 1, 10);
 
     const stats = new Stats();
 
@@ -39,11 +39,11 @@ window.spaceShip = function () {
 
     directionalLight.position.set(0, 20, 10);
 
-    // scene.add(light);
+    scene.add(light);
 
     // scene.add(directionalLight);
 
-    camera.position.set(2, 3, 10);
+    camera.position.set(2, 0.4, 10);
 
     let spaceShip = new THREE.Object3D();
 
@@ -80,7 +80,7 @@ window.spaceShip = function () {
     
     fbxLoader.load("./assets/planets/black-hole/source/blackhole.fbx", function (gltf) {
         blackHole.add(gltf);
-        blackHole.scale.set(0.001, 0.001, 0.001);
+        blackHole.scale.set(0.0001, 0.0001, 0.0001);
 
         console.log("black hole", blackHole);
         scene.add(blackHole);

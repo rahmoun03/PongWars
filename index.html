@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Connection</title>
+    <style>
+        .container {
+            display: flex;              /* Set the container to use Flexbox */
+            justify-content: space-between; /* Distribute space between items */
+            padding: 20px;
+          }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button onclick="sendData('send')">add user</button>
+        <button onclick="sendData('remove')">remove user</button>
+        <button onclick="sendData('accept')">accept request</button>
+        <button onclick="sendData('reject')">reject request</button>
+    </div>
+
+    <input type="text" id="imputUsername" placeholder="add friend">
+
+
+    <script>
+        // Replace 'ws://localhost:8000/ws/ticwinlose/' with your WebSocket server URL
+
+        let data = {
+            "to_user":"",
+            "action":"",
+        };
+
+        function sendData(action)
+        {
+            const usrname = document.getElementById("imputUsername").value;
+            if (usrname == "")
+            {
+                alert("enter username");
+                return;
+            }
+            data["to_user"] = usrname;
+            data["action"] = action;
+            socket.send(JSON.stringify(data));
+        }
+
+        const socketUrl = 'wss://localhost:3000/ws/notif/';
+        
+        // Create a new WebSocket connection
+        const socket = new WebSocket(socketUrl);
+
+        // Event handler for successful connection
+        socket.onopen = (event) => {
+            console.log(`connected ${event}`);
+        };
+
+        // Event handler for connection failure or errors
+        socket.onerror = (error) => {
+            console.log('WebSocket error: ', error);
+        };
+
+        socket.onmessage = (message) => {
+            console.log("-------------");
+            console.log(`message received: ${message.data}`);
+            let data = {
+                "to_user":"kali",
+                "action":"send",
+                "from_user":"iantar",
+                "status":"",
+            };
+            // sendRequest(data);
+            
+        };
+        // async function    sendRequest(data)
+        // {
+        //     const url = "http://localhost:8000/friendship/";
+
+        //     const res = await fetch(url, {
+        //         method:"POST",
+        //         body:JSON.stringify(data),
+        //         headers:{
+        //             'Content-Type': 'application/json',
+        //             'X-CSRFToken': getCookie('csrftoken'),
+        //         },
+        //         credentials: 'include',
+        //     });
+        //     return res;
+        // }
+        // socket.addEventListener("open", (event) => {
+        //     const data = {
+        //         "from_user":"iantar",
+        //         "to_user":"arahmoun",
+        //         "status":"",
+        //         "action":"accepted"
+        //     };
+        //     console.log('')
+        //     socket.send(JSON.stringify(data));
+        // });
+        // Optional: Event handler for when the connection is closed
+        socket.onclose = (event) => {
+            if (!event.wasClean) {
+                console.log("Connection closed unexpectedly");
+            }
+        };
+    </script>
+</body>
+</html>
+

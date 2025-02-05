@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+/* @import url('https://www.fontspace.com/sf-distant-galaxy-font-f6436'); */
+
+@font-face {
+    font-family: "Pong War";
+    src: url('./fonts/SfDistantGalaxyAlternateItalic-3RDM.ttf') format('woff2');
+    /* font-weight: bold; */
+    letter-spacing: 2px;
+}
+
+
+:root {
+    --blue: linear-gradient(0deg, 
+    rgb(4, 28,68, 1) 100%, 
+    rgba(56, 75, 112, 0.2) 100%
+     );;
+    --red: rgba(228, 5, 47, 1);
+    --h3: #00bcd4;
+    --orange: #ff5722;
+  
+    /* --red: #ff4d4d; */
+    /* --blue: #1e90ff; */
+    --white: #fff;
+    --gray: #ddd;
+    --dark-blue: #10142a;
+}
+
+
+body, html {
+    background-color: #000000;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+footer {
+    font-family: "Press Start 2P";
+    color: silver;
+    font-size: 10px;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+}
+
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+
+/* Hidden by default */
+.hidden {
+    display: none;
+}
+
+.tournament-headers {
+    display: flex;
+    flex-direction: row;
+    place-content: space-between;
+}
+
+.tournament-feilds{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.tournament-feilds h3:hover {
+    color: var(--red);
+    cursor: pointer;
+}
+
+
+#create-tournament {
+    gap: 10px;
+    width: 90%;
+}
+
+#create-tournament-form {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+#join-tournament {
+    width: 90%;
+}
+
+#tournament-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    max-height: 200px; /* Limit height for long lists */
+    overflow-y: auto;  /* Add scrolling for overflow */
+}
+
+#tournament-list li {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: var(--blue);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#tournament-list li:hover {
+    background-color: var(--red);
+}
+
+#tournament-list li.selected {
+    background-color: var(--red);
+    color: white;
+}
+
+#tournament-section label {
+    display: block;
+    margin-bottom: 5px;
+    width: 50%;
+}
+
+#tournament-section input, select, button {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#tournament-section button {
+    width: 150px;
+    font-family: "Pong War";
+    background-color: var(--red);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#tournament-section button:hover {
+    background-color: #0056b3;
+}
+
+
+#matchmaking-section {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid var(--blue);
+    border-radius: 10px;
+    background-color: var(--blue-light);
+    color: white;
+    font-family: "Pong War";
+}
+
+#participant-list ul, #matches-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+#participant-list ul li, #matches-section ul li {
+    padding: 10px;
+    background-color: var(--blue);
+    border: 1px solid var(--red);
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+#matches-section ul li {
+    text-align: center;
+    font-weight: bold;
+}
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes gradientMove {
+    0% {
+        transform: translate(-50%, -50%);
+    }
+    100% {
+        transform: translate(50%, 50%);
+    }
+}

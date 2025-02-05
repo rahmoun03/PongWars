@@ -1,0 +1,298 @@
+TODO setting up my django 
+
+TODO Set up URLs
+
+TODO Set up Views
+
+TODO Set up the templates
+
+TODO
+
+TODO
+
+TODO
+
+TODO AI Improvement:
+
+    Experiment with different AI strategies, such as:
+        Predicting the ball's trajectory based on its current velocity and angle.
+        Adapting the AI's difficulty level based on the player's skill level.
+        Implementing learning algorithms to improve the AI's performance over time.
+
+
+
+                {% comment %} create game over section {% endcomment %}
+        <div id="gameOver" style="display: none;">
+            <h1>Game Over</h1>
+            <p id="winner"></p>
+            <p id="score"></p>
+            <button action="/" id="playAgain">Play Again</button>
+        </div>
+        
+        {% comment %} Waiting for opponent section {% endcomment %}
+        <div id="waiting" style="display: none;">
+            <div class="left_user">
+                <div class="user_info">
+                    <p>username</p>
+                    <div class="user_image"></div>
+                </div>
+        </div>
+        <div class="midel_info">
+            <p>Waiting for opponent...</p>
+            <div class="loader"></div>
+        </div>
+        <div class="right_user">
+            <div class="user_info">
+                <p>username</p>
+                <div class="user_image"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="countdown" style="display: none;">
+    </div>
+    
+    <!-- Tournament -->
+    <div id="tournament-section" style="display: none;">
+        <div class="tournament-headers">
+            <h2>Tournament</h2>
+            <div class="tournament-feilds">
+                <h3>create</h3>
+                <h3>join</h3>
+            </div>
+        </div>
+        
+        <!-- Create Tournament Section -->
+        <div id="create-tournament">
+            <h3>Create Tournament</h3>
+            <form id="create-tournament-form">
+                <label for="alias">Alias Name:</label>
+                <input type="text" id="create-alias" placeholder="Enter your alias" required>
+                <br>
+                <label for="tournament-name">Tournament Name:</label>
+                <input type="text" id="tournament-name" placeholder="Enter tournament name" required>
+                <br>
+                <button type="button" id="create-button">Create Tournament</button>
+            </form>
+        </div>
+        
+        
+        <!-- Join Tournament Section -->
+        <div id="join-tournament" style="display: none;">
+            <h3>Join Tournament</h3>
+            <label for="tournament-list">Available Tournaments:</label>
+            <ul id="tournament-list">
+                <!-- Tournament options will be dynamically added -->
+            </ul>
+            <br>
+            <label for="join-alias">Alias Name:</label>
+            <input type="text" id="join-alias" placeholder="Enter your alias" required>
+            <br>
+            <button type="button" id="join-button">Join Tournament</button>
+        </div>
+    </div>
+    
+    <div id="matchmaking-section" style="display: none;">
+        <h3>Matchmaking</h3>
+        <div id="participant-list">
+            <h4>Participants:</h4>
+            <ul id="participants">
+                <!-- Participant names will be added dynamically -->
+            </ul>
+        </div>
+        <div id="matches-section">
+            <h4>Matches:</h4>
+            <ul id="matches">
+                <!-- Matches will be generated and displayed dynamically -->
+            </ul>
+        </div>
+    </div>
+    
+    
+
+
+
+
+
+    // tournament match making section
+
+    const participantsList = document.getElementById('participants');
+    const matchesList = document.getElementById('matches');
+    const matchmakingSection = document.getElementById('matchmaking-section');
+
+
+
+    // Simulate adding a participant
+    // function addParticipant() {
+    //     updateParticipantList();
+    //     generateMatches();
+    // }
+
+    // Update the participant list UI
+    function updateParticipantList() {
+        participantsList.innerHTML = '';
+        participants.forEach(participant => {
+            const listItem = document.createElement('li');
+            listItem.textContent = participant;
+            participantsList.appendChild(listItem);
+        });
+    }
+
+    // Generate matches dynamically
+    function generateMatches() {
+        matches.length = 0; // Clear previous matches
+
+        // Pair participants
+        const shuffledParticipants = [...participants].sort(() => Math.random() - 0.5); // Shuffle
+        for (let i = 0; i < shuffledParticipants.length; i += 2) {
+            if (shuffledParticipants[i + 1]) {
+                matches.push({player1: shuffledParticipants[i], player2: shuffledParticipants[i + 1]});
+            } else {
+                matches.push({plaer1: shuffledParticipants[i], player2: 'Bye'});
+            }
+        }
+
+        updateMatchesList();
+    }
+    // Update the matches UI
+    function updateMatchesList() {
+        matchesList.innerHTML = '';
+        matches.forEach(match => {
+            const matchItem = document.createElement('li');
+            matchItem.innerHTML = `
+                <span>${match.player1}</span> 
+                <span class="vs">VS</span> 
+                <span>${match.player2}</span>`;
+            matchesList.appendChild(matchItem);
+        });
+    }
+
+
+    <body>
+        <div id="matchmaking-section" class="section">
+
+          <!-- Participants Section -->
+          <div class="section">
+            <h2>Participants</h2>
+            <div class="participants">
+              <div class="participant-card">
+                <span>Player 1</span>
+              </div>
+              <div class="participant-card">
+                <span>Player 2</span>
+              </div>
+              <div class="participant-card">
+                <span>Player 3</span>
+              </div>
+              <div class="participant-card">
+                <span>Player 4</span>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Next Match Section -->
+          <div class="section next-match">
+            <h2>Next Match</h2>
+            <div>
+              <span>Player 1</span>
+              <span class="vs">VS</span>
+              <span>Player 2</span>
+            </div>
+          </div>
+      
+          <!-- Tournament Progress Section -->
+          <div class="section">
+            <h2>Tournament Bracket</h2>
+            <div class="bracket">
+              <!-- Round 1 -->
+              <section class="round">
+                <h3>Round 1</h3>
+                <div class="match-list">
+                  <div class="match">
+                    <span>Player 1</span>
+                    <span class="vs">VS</span>
+                    <span>Player 2</span>
+                  </div>
+                  <div class="match">
+                    <span>Player 3</span>
+                    <span class="vs">VS</span>
+                    <span>Player 4</span>
+                  </div>
+                </div>
+              </section>
+          
+              <!-- Round 2 -->
+              <section class="round">
+                <h3>Round 2</h3>
+                <div class="match-list">
+                  <div class="match winner">
+                    <span>Winner 1</span>
+                    <span class="vs">VS</span>
+                    <span>Winner 2</span>
+                  </div>
+                </div>
+              </section>
+          
+              <!-- Winner -->
+              <section class="round">
+                <h3>Winner</h3>
+                <div class="match">
+                  <span>Champion: Winner</span>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </body>
+
+
+
+
+
+
+
+
+
+
+      // Create the tournament bracket
+      function createTournamentProgress() {
+          const bracketContainer = document.createElement('div');
+          bracketContainer.classList.add('tournament-bracket');
+          bracketContainer.style.display = 'flex';
+          bracketContainer.style.flexDirection = 'column';
+          bracketContainer.style.gap = '20px';
+  
+          // Round 1
+          const round1 = document.createElement('div');
+          round1.classList.add('round');
+          round1.innerHTML = `
+              <h3>Round 1</h3>
+              <div class="match">
+                  <span>Player 1</span>
+                  <span class="vs">VS</span>
+                  <span>Player 2</span>
+              </div>
+              <div class="match">
+                  <span>Player 3</span>
+                  <span class="vs">VS</span>
+                  <span>Player 4</span>
+              </div>
+          `;
+          bracketContainer.appendChild(round1);
+  
+          // Final Round
+          const finalRound = document.createElement('div');
+          finalRound.classList.add('round');
+          finalRound.innerHTML = `
+              <h3>Final</h3>
+              <div class="match">
+                  <span>Winner of Match 1</span>
+                  <span class="vs">VS</span>
+                  <span>Winner of Match 2</span>
+              </div>
+          `;
+          bracketContainer.appendChild(finalRound);
+  
+          // Append the bracket to the tournament map section
+          tournamentProgressSection.appendChild(bracketContainer);
+      }

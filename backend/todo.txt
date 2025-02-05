@@ -1,0 +1,6 @@
+rank: username , image , score , level 
+friend : /all_friends
+            /all_users-> is_friend : ture or false
+            /delet friend 
+            /add friend
+            

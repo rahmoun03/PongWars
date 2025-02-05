@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournament Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.1/dist/web3.min.js"></script>
+    <style>
+        /* Basic reset and base styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+        }
+
+        .filter-container {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        select, input {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 200px;
+        }
+
+        /* Table styling */
+        .table-container {
+            margin: 20px auto;
+            width: 80%;
+            overflow-x: auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 2px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        td[rowspan] {
+            vertical-align: middle;
+        }
+
+        /* Button styling */
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Input styles */
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 95%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tournament Management</h1>
+
+    <!-- Add Tournament Section -->
+    <div>
+        <h2>Add Tournament</h2>
+        <input type="text" id="tournamentName" placeholder="Tournament Name" />
+
+        <h3>Player Details</h3>
+        <div id="players">
+            <div>
+                <input type="text" class="playerName" id="player1Name" placeholder="Player 1 Name" />
+                <input type="number" class="playerRank" id="player1Rank" placeholder="Player 1 Rank" />
+            </div>
+            <div>
+                <input type="text" class="playerName" id="player2Name" placeholder="Player 2 Name" />
+                <input type="number" class="playerRank" id="player2Rank" placeholder="Player 2 Rank" />
+            </div>
+            <div>
+                <input type="text" class="playerName" id="player3Name" placeholder="Player 3 Name" />
+                <input type="number" class="playerRank" id="player3Rank" placeholder="Player 3 Rank" />
+            </div>
+            <div>
+                <input type="text" class="playerName" id="player4Name" placeholder="Player 4 Name" />
+                <input type="number" class="playerRank" id="player4Rank" placeholder="Player 4 Rank" />
+            </div>
+        </div>
+        <button onclick="addTournament()">Add Tournament</button>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-container">
+        <h2>Filter Tournaments</h2>
+        <select id="filterDropdown" onchange="filterTournaments()">
+            <option value="all">All</option>
+        </select>
+        <input type="text" id="filterInput" placeholder="Search by name..." onkeyup="filterTournaments()">
+    </div>
+
+    <!-- View Tournaments Section -->
+    <div>
+        <h2>View Tournaments</h2>
+        <button onclick="getTournaments()">Get Tournaments</button>
+        <div class="table-container">
+            <ul id="tournamentList"></ul>
+        </div>
+    </div>
+
+    <script>
+        let web3;
+        let contractAddress = '0x5fbdb2315678afecb367f032d93f642f64180aa3'; // Replace with your contract address
+        let abi = [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "tournamentName",
+          "type": "string"
+        },
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rank",
+              "type": "uint256"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct TournamentDetails.Player",
+          "name": "player1",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rank",
+              "type": "uint256"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct TournamentDetails.Player",
+          "name": "player2",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rank",
+              "type": "uint256"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct TournamentDetails.Player",
+          "name": "player3",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rank",
+              "type": "uint256"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct TournamentDetails.Player",
+          "name": "player4",
+          "type": "tuple"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "TournamentAdded",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "player1Name",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "player1Rank",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "player2Name",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "player2Rank",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "player3Name",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "player3Rank",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "player4Name",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "player4Rank",
+          "type": "uint256"
+        }
+      ],
+      "name": "addTournament",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTournaments",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "string",
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "rank",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct TournamentDetails.Player",
+              "name": "player1",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "string",
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "rank",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct TournamentDetails.Player",
+              "name": "player2",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "string",
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "rank",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct TournamentDetails.Player",
+              "name": "player3",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "string",
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "rank",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct TournamentDetails.Player",
+              "name": "player4",
+              "type": "tuple"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct TournamentDetails.Tournament[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "tournaments",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rank",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct TournamentDetails.Player",
+          "name": "player1",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rank",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct TournamentDetails.Player",
+          "name": "player2",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rank",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct TournamentDetails.Player",
+          "name": "player3",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rank",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct TournamentDetails.Player",
+          "name": "player4",
+          "type": "tuple"
+        },
+        {
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ];
+        let contract;
+        let tournamentsData = []; // Store tournaments data globally for filtering
+
+        async function init() {
+            if (typeof window.ethereum !== 'undefined') {
+                web3 = new Web3(window.ethereum);
+
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    console.log('Connected account:', accounts[0]);
+
+                    contract = new web3.eth.Contract(abi, contractAddress);
+                } catch (error) {
+                    console.error("User denied account access", error);
+                }
+            } else {
+                console.log('Please install MetaMask!');
+            }
+        }
+
+        async function addTournament() {
+            const tournamentName = document.getElementById('tournamentName').value;
+            const player1Name = document.getElementById('player1Name').value;
+            const player1Rank = parseInt(document.getElementById('player1Rank').value);
+            const player2Name = document.getElementById('player2Name').value;
+            const player2Rank = parseInt(document.getElementById('player2Rank').value);
+            const player3Name = document.getElementById('player3Name').value;
+            const player3Rank = parseInt(document.getElementById('player3Rank').value);
+            const player4Name = document.getElementById('player4Name').value;
+            const player4Rank = parseInt(document.getElementById('player4Rank').value);
+
+            if (!contract) {
+                alert('Contract is not initialized. Please refresh the page.');
+                return;
+            }
+
+            const accounts = await web3.eth.getAccounts();
+            const account = accounts[0];
+
+            try {
+                await contract.methods.addTournament(
+                    tournamentName,
+                    player1Name, player1Rank,
+                    player2Name, player2Rank,
+                    player3Name, player3Rank,
+                    player4Name, player4Rank
+                ).send({ from: account });
+                // alert('Tournament Added!');
+            } catch (error) {
+                console.error("Error adding tournament:", error);
+            }
+        }
+
+        async function getTournaments() {
+            if (!contract) {
+                alert('Contract is not initialized. Please refresh the page.');
+                return;
+            }
+
+            try {
+                const tournaments = await contract.methods.getTournaments().call();
+                tournamentsData = tournaments; // Store globally for filtering
+                updateDropdown(tournaments); // Update filter dropdown
+                displayTournaments(tournaments);
+            } catch (error) {
+                console.error('Error fetching tournaments:', error);
+            }
+        }
+
+        function displayTournaments(tournaments) {
+            const tournamentList = document.getElementById('tournamentList');
+            tournamentList.innerHTML = '';
+
+            const table = document.createElement('table');
+            const headerRow = document.createElement('tr');
+            const headers = ['tourna name', 'players name', 'rank', 'timestamp'];
+
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.innerText = header;
+                headerRow.appendChild(th);
+            });
+
+            table.appendChild(headerRow);
+
+            tournaments.forEach(tournament => {
+                const tournamentRow = document.createElement('tr');
+
+                const nameCell = document.createElement('td');
+                nameCell.innerText = tournament.name;
+                nameCell.rowSpan = 4;
+
+                const timestampCell = document.createElement('td');
+                const timestamp = new Date(tournament.timestamp * 1000).toLocaleString();
+                timestampCell.innerText = timestamp;
+                timestampCell.rowSpan = 4;
+
+                tournamentRow.appendChild(nameCell);
+
+                const players = [
+                    tournament.player1,
+                    tournament.player2,
+                    tournament.player3,
+                    tournament.player4,
+                ];
+
+                const playerNameCell = document.createElement('td');
+                playerNameCell.innerText = players[0].name;
+                const rankCell = document.createElement('td');
+                rankCell.innerText = players[0].rank;
+
+                tournamentRow.appendChild(playerNameCell);
+                tournamentRow.appendChild(rankCell);
+
+                tournamentRow.appendChild(timestampCell);
+                table.appendChild(tournamentRow);
+
+                for (let i = 1; i < players.length; i++) {
+                    const playerRow = document.createElement('tr');
+
+                    const playerNameCell = document.createElement('td');
+                    playerNameCell.innerText = players[i].name;
+                    const rankCell = document.createElement('td');
+                    rankCell.innerText = players[i].rank;
+
+                    playerRow.appendChild(playerNameCell);
+                    playerRow.appendChild(rankCell);
+                    table.appendChild(playerRow);
+                }
+            });
+
+            tournamentList.appendChild(table);
+        }
+
+        function updateDropdown(tournaments) {
+            const filterDropdown = document.getElementById('filterDropdown');
+            const uniqueTournamentNames = [...new Set(tournaments.map(t => t.name))];
+
+            filterDropdown.innerHTML = `<option value="all">All</option>`;
+            uniqueTournamentNames.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.innerText = name;
+                filterDropdown.appendChild(option);
+            });
+        }
+
+        function filterTournaments() {
+            const filterValue = document.getElementById('filterInput').value.toLowerCase();
+            const dropdownValue = document.getElementById('filterDropdown').value;
+
+            const filteredTournaments = tournamentsData.filter(tournament => {
+                const matchesName = dropdownValue === "all" || tournament.name.toLowerCase() === dropdownValue;
+                const matchesSearch = tournament.name.toLowerCase().includes(filterValue);
+                return matchesName && matchesSearch;
+            });
+
+            displayTournaments(filteredTournaments);
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+-> use jwt cookies for auth intra
+
+# read the subject again
+# recreate a new intra auth
+# use jwt and set the cookie and redirct to home
+# use two factors authentcation to login (otp)
+# if unthenticated user try to acess the /home rediract him to /register
+# authentcate with google 
